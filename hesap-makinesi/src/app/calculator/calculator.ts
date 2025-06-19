@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../button/button'; // ButtonComponent'in yolu
+import { ButtonComponent } from '../button/button';
+import { HistoryService } from '../history/history.service'; // <-- Burası düzeltildi!
 
 @Component({
   selector: 'app-calculator',
@@ -10,33 +11,28 @@ import { ButtonComponent } from '../button/button'; // ButtonComponent'in yolu
   imports: [CommonModule, ButtonComponent]
 })
 export class CalculatorComponent {
-  // 1. Değişken Tanımlamaları:
   currentInput: string = '0';
-  history: string[] = []; // History Observable yerine basit dizi yaptık
 
   private firstOperand: number | null = null;
   private operator: string | null = null;
   private waitForSecondOperand: boolean = false;
 
-  // 2. Constructor (Eğer varsa, kendi kodunu buraya ekle):
-  constructor() {
-    // Örneğin, HistoryService'i burada enjekte edebilirsin:
-    // constructor(private historyService: HistoryService) { ... }
+  constructor(private historyService: HistoryService) { } // <-- Constructor güncellendi
+
+  // HistoryService'ten geçmişi almak için getter metot
+  get history(): string[] {
+    return this.historyService.getHistory();
   }
 
-  // 3. Metot Tanımlamaları:
-
-  // C butonu: Ekranı ve geçmişi temizler
   pressClear() {
     this.currentInput = '0';
     this.firstOperand = null;
     this.operator = null;
     this.waitForSecondOperand = false;
-    this.history = []; // Geçmişi temizle <-- BURAYA EKLENECEK
+    this.historyService.clearHistory(); // <-- Servis metodu çağrıldı
     console.log('Clear butonu tıklandı');
   }
 
-  // Geri tuşu (Backspace): Son karakteri siler
   pressBackspace() {
     if (this.currentInput.length > 1) {
       this.currentInput = this.currentInput.slice(0, -1);
@@ -46,7 +42,6 @@ export class CalculatorComponent {
     console.log('Backspace butonu tıklandı');
   }
 
-  // Yüzde butonu: Sayının yüzdesini alır (Örnek mantık)
   pressPercent() {
     const num = parseFloat(this.currentInput);
     if (!isNaN(num)) {
@@ -55,7 +50,6 @@ export class CalculatorComponent {
     console.log('Yüzde butonu tıklandı');
   }
 
-  // Sayı butonları: Ekranı günceller
   pressNumber(number: string) {
     if (this.waitForSecondOperand) {
       this.currentInput = number;
@@ -69,7 +63,6 @@ export class CalculatorComponent {
     console.log(`Sayı butonu tıklandı: ${number}`);
   }
 
-  // Operatör butonları: İşlemi ayarlar
   pressOperator(nextOperator: string) {
     const inputValue = parseFloat(this.currentInput);
 
@@ -86,7 +79,6 @@ export class CalculatorComponent {
     console.log(`Operatör butonu tıklandı: ${nextOperator}`);
   }
 
-  // Eşittir butonu: Hesaplamayı yapar
   pressEqual() {
     if (this.firstOperand === null || this.operator === null) {
       return;
@@ -95,18 +87,15 @@ export class CalculatorComponent {
     const secondOperand = parseFloat(this.currentInput);
     const result = this.performCalculation(this.operator, this.firstOperand, secondOperand);
 
-    // Geçmişe ekleme: <-- BURAYA EKLENECEK
-    this.history.push(`${this.firstOperand} ${this.operator} ${secondOperand} = ${result}`);
+    this.historyService.addEntry(`${this.firstOperand} ${this.operator} ${secondOperand} = ${result}`); // <-- Servis metodu çağrıldı
 
     this.currentInput = String(result);
     this.firstOperand = null;
     this.operator = null;
     this.waitForSecondOperand = false;
     console.log('Eşittir butonu tıklandı');
-    // Hesaplama sonucunu geçmişe ekleme mantığı (history$ veya servis)
   }
 
-  // Hesaplama yardımcı metodu
   private performCalculation(operator: string, firstOperand: number, secondOperand: number): number {
     switch (operator) {
       case '+':
@@ -116,6 +105,10 @@ export class CalculatorComponent {
       case '*':
         return firstOperand * secondOperand;
       case '/':
+        if (secondOperand === 0) {
+          console.error("Sıfıra bölme hatası!");
+          return NaN;
+        }
         return firstOperand / secondOperand;
       default:
         return secondOperand;
