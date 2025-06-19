@@ -1,140 +1,124 @@
-// src/app/calculator/calculator.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
-
-import { HistoryService } from '../history';
-import { TwoDigitPipe } from '../two-digit-pipe';
+import { ButtonComponent } from '../button/button'; // ButtonComponent'in yolu
 
 @Component({
   selector: 'app-calculator',
+  templateUrl: './calculator.html',
+  styleUrl: './calculator.scss',
   standalone: true,
-  imports: [CommonModule, TwoDigitPipe],
-  templateUrl: './calculator.html', // Kontrol et: Dosya yolu doğru mu?
-  styleUrls: ['./calculator.scss']  // Kontrol et: Dosya yolu doğru mu?
+  imports: [CommonModule, ButtonComponent]
 })
-export class Calculator {
+export class CalculatorComponent {
+  // 1. Değişken Tanımlamaları:
   currentInput: string = '0';
-  firstNumber: number = 0;
-  operator: string | null = null;
-  waitingForSecondNumber: boolean = false;
-  history$: Observable<string[]>;
+  history: string[] = []; // History Observable yerine basit dizi yaptık
 
-  constructor(private historyService: HistoryService) {
-    this.history$ = this.historyService.history$;
+  private firstOperand: number | null = null;
+  private operator: string | null = null;
+  private waitForSecondOperand: boolean = false;
+
+  // 2. Constructor (Eğer varsa, kendi kodunu buraya ekle):
+  constructor() {
+    // Örneğin, HistoryService'i burada enjekte edebilirsin:
+    // constructor(private historyService: HistoryService) { ... }
   }
 
-  // >>> Bu fonksiyonların isimleri HTML'deki 'click' olaylarıyla aynı olmalı <<<
-  pressNumber(num: string) {
-    if (num === '.' && this.currentInput.includes('.')) {
-      return;
-    }
-    if (this.waitingForSecondNumber) {
-      this.currentInput = num;
-      this.waitingForSecondNumber = false;
-    } else {
-      this.currentInput = (this.currentInput === '0' && num !== '.') ? num : this.currentInput + num;
-    }
-  }
+  // 3. Metot Tanımlamaları:
 
-  pressOperator(op: string) {
-    if (this.operator && this.waitingForSecondNumber) {
-      this.operator = op;
-      return;
-    }
-    if (this.firstNumber === 0 && this.operator === null) {
-      this.firstNumber = parseFloat(this.currentInput);
-    } else if (this.operator) {
-      this.calculate();
-      this.firstNumber = parseFloat(this.currentInput);
-    }
-    this.operator = op;
-    this.waitingForSecondNumber = true;
-  }
-
-  calculate() {
-    if (this.operator === null || this.firstNumber === null) {
-      return;
-    }
-    const secondNumber = parseFloat(this.currentInput);
-    if (isNaN(secondNumber)) {
-      this.currentInput = 'Error';
-      this.resetState();
-      return;
-    }
-    let result: number;
-    const historyEntry = `${this.firstNumber} ${this.operator} ${secondNumber}`;
-    switch (this.operator) {
-      case '+': result = this.firstNumber + secondNumber; break;
-      case '-': result = this.firstNumber - secondNumber; break;
-      case '*': result = this.firstNumber * secondNumber; break;
-      case '/':
-        if (secondNumber === 0) { this.currentInput = 'Error (Div by 0)'; this.resetState(); return; }
-        result = this.firstNumber / secondNumber; break;
-      default: return;
-    }
-    result = parseFloat(result.toFixed(8));
-    this.currentInput = String(result);
-    this.historyService.addHistory(`${historyEntry} = ${this.currentInput}`);
-    this.operator = null;
-    this.waitingForSecondNumber = false;
-  }
-
-  pressPercent() {
-    let value = parseFloat(this.currentInput);
-    if (isNaN(value)) { this.currentInput = 'Error'; this.resetState(); return; }
-    if (this.firstNumber !== 0 && this.operator !== null) {
-        if (this.operator === '+' || this.operator === '-') {
-            value = this.firstNumber * (value / 100);
-        } else {
-            value = value / 100;
-        }
-    } else {
-        value = value / 100;
-    }
-    this.waitingForSecondNumber = true;
-    this.currentInput = String(value);
-  }
-
-  pressEqual() {
-    this.calculate();
-    this.firstNumber = 0;
-  }
-
-  changeSign() {
-    if (this.currentInput === '0' || this.currentInput === 'Error' || isNaN(parseFloat(this.currentInput))) {
-      return;
-    }
-    if (this.currentInput.startsWith('-')) {
-      this.currentInput = this.currentInput.substring(1);
-    } else {
-      this.currentInput = '-' + this.currentInput;
-    }
-  }
-
-  pressBackspace() {
-    if (this.currentInput === 'Error') {
-      this.pressClear();
-      return;
-    }
-    if (this.currentInput === '0' && this.currentInput.length === 1) {
-      return;
-    }
-    this.currentInput = this.currentInput.slice(0, -1);
-    if (this.currentInput === '' || this.currentInput === '-') {
-      this.currentInput = '0';
-    }
-  }
-
+  // C butonu: Ekranı ve geçmişi temizler
   pressClear() {
     this.currentInput = '0';
-    this.resetState();
-    this.historyService.clearHistory(); // HistoryService'in clearHistory metodunu çağır
+    this.firstOperand = null;
+    this.operator = null;
+    this.waitForSecondOperand = false;
+    this.history = []; // Geçmişi temizle <-- BURAYA EKLENECEK
+    console.log('Clear butonu tıklandı');
   }
 
-  private resetState() {
-    this.firstNumber = 0;
+  // Geri tuşu (Backspace): Son karakteri siler
+  pressBackspace() {
+    if (this.currentInput.length > 1) {
+      this.currentInput = this.currentInput.slice(0, -1);
+    } else {
+      this.currentInput = '0';
+    }
+    console.log('Backspace butonu tıklandı');
+  }
+
+  // Yüzde butonu: Sayının yüzdesini alır (Örnek mantık)
+  pressPercent() {
+    const num = parseFloat(this.currentInput);
+    if (!isNaN(num)) {
+      this.currentInput = (num / 100).toString();
+    }
+    console.log('Yüzde butonu tıklandı');
+  }
+
+  // Sayı butonları: Ekranı günceller
+  pressNumber(number: string) {
+    if (this.waitForSecondOperand) {
+      this.currentInput = number;
+      this.waitForSecondOperand = false;
+    } else {
+      if (number === '.' && this.currentInput.includes('.')) {
+        return;
+      }
+      this.currentInput = this.currentInput === '0' && number !== '.' ? number : this.currentInput + number;
+    }
+    console.log(`Sayı butonu tıklandı: ${number}`);
+  }
+
+  // Operatör butonları: İşlemi ayarlar
+  pressOperator(nextOperator: string) {
+    const inputValue = parseFloat(this.currentInput);
+
+    if (this.firstOperand === null) {
+      this.firstOperand = inputValue;
+    } else if (this.operator) {
+      const result = this.performCalculation(this.operator, this.firstOperand, inputValue);
+      this.currentInput = String(result);
+      this.firstOperand = result;
+    }
+
+    this.waitForSecondOperand = true;
+    this.operator = nextOperator;
+    console.log(`Operatör butonu tıklandı: ${nextOperator}`);
+  }
+
+  // Eşittir butonu: Hesaplamayı yapar
+  pressEqual() {
+    if (this.firstOperand === null || this.operator === null) {
+      return;
+    }
+
+    const secondOperand = parseFloat(this.currentInput);
+    const result = this.performCalculation(this.operator, this.firstOperand, secondOperand);
+
+    // Geçmişe ekleme: <-- BURAYA EKLENECEK
+    this.history.push(`${this.firstOperand} ${this.operator} ${secondOperand} = ${result}`);
+
+    this.currentInput = String(result);
+    this.firstOperand = null;
     this.operator = null;
-    this.waitingForSecondNumber = false;
+    this.waitForSecondOperand = false;
+    console.log('Eşittir butonu tıklandı');
+    // Hesaplama sonucunu geçmişe ekleme mantığı (history$ veya servis)
+  }
+
+  // Hesaplama yardımcı metodu
+  private performCalculation(operator: string, firstOperand: number, secondOperand: number): number {
+    switch (operator) {
+      case '+':
+        return firstOperand + secondOperand;
+      case '-':
+        return firstOperand - secondOperand;
+      case '*':
+        return firstOperand * secondOperand;
+      case '/':
+        return firstOperand / secondOperand;
+      default:
+        return secondOperand;
+    }
   }
 }

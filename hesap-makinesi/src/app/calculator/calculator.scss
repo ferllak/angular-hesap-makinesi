@@ -1,151 +1,93 @@
-/* src/app/calculator/calculator.scss */
+/* Genel Renk Paleti - Yumuşak ve Pastel Tonlar */
+$ana-arka-plan: #f8f8f8; // Çok açık gri/krem tonu
+$hesap-makinesi-arka-plan: #ffffff; // Beyaz
+$ekran-arka-plan: #e0f2f7; // Açık, su yeşili mavisi (yeni ton)
+$gecmis-yazi: #8a8a8a; // Orta gri
+$ekran-yazi: #2c3e50; // Koyu gri/mavi
+$tus-sayi: #f0f0f0; // Buton arka planı (sayı)
+$tus-operator: #a2e8c2; // Yeşilimsi buton (operatör)
+$tus-aksiyon: #f7d794; // Sarımsı buton (Clear, %)
+$tus-esittir: #ffb8b8; // Pembe buton (=)
+$golge-rengi: rgba(0, 0, 0, 0.1); // Yumuşak gölge
 
-:host {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 400px;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #fdf0f5, #fbe9f1);
-  border-radius: 2rem;
-  box-shadow: 0 10px 30px rgba(220, 170, 230, 0.15);
-  font-family: 'Poppins', sans-serif;
-  color: #38005b;
-  overflow: hidden;
-  box-sizing: border-box;
+/* Google Font: Edu NSW ACT Hand Pre */
+$ana-font: 'Edu NSW ACT Hand Pre', cursive;
+
+/* Genel Hesap Makinesi Konteyneri */
+.calculator-container {
+  display: flex; // İçerikleri esnek kutu olarak sırala
+  flex-direction: column; // İçerikleri dikey sırala (ekran üstte, butonlar altta)
+  width: 320px; // Hesap makinesinin genel genişliği
+  max-width: 90%; // Daha küçük ekranlarda taşmayı önler
+  margin: 50px auto; // Üstten ve alttan 50px boşluk, sağdan ve soldan otomatik boşluk (ortalar)
+  background-color: $hesap-makinesi-arka-plan; // Beyaz arka plan
+  border: 1px solid #e0e0e0; // Çok açık gri kenarlık
+  border-radius: 20px; // Köşeleri yuvarlaklaştırma
+  overflow: hidden; // İçerik taşmasını engeller (örn. yuvarlak köşelerde)
+  box-shadow: 0 10px 30px $golge-rengi; // Yumuşak ve belirgin bir gölge
+  font-family: $ana-font; // Tüm hesap makinesi içindeki varsayılan font
+  padding-bottom: 10px; // Alt kısımdan biraz boşluk (ızgara için)
 }
 
+/* Hesap Makinesi Ekranı */
 .display {
-  width: 100%;
-  background-color: #f3e5f5;
-  border-radius: 20px;
-  padding: 1.2rem 1rem;
-  margin-bottom: 1.5rem;
-  font-size: 3rem;
-  text-align: center;
-  color: #c761f3;
-  box-shadow: inset 3px 3px 8px rgba(200, 150, 220, 0.1);
-  min-height: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  word-wrap: break-word;
-  overflow-x: auto;
-  box-sizing: border-box;
+  background-color: $ekran-arka-plan; // Ekranın arka plan rengi
+  color: $ekran-yazi; // Ekrandaki sayıların yazı rengi
+  font-size: 3.5em; // Ekrandaki sayıların boyutu (biraz daha büyük)
+  padding: 25px; // İç boşluk
+  text-align: right; // Yazıyı sağa hizala
+  min-height: 85px; // Ekranın minimum yüksekliği
+  display: flex; // İçerikleri esnek kutu olarak sırala
+  align-items: flex-end; // İçeriği dikeyde alta hizala
+  justify-content: flex-end; // İçeriği yatayda sağa hizala
+  word-break: break-all; // Uzun sayıların taşmasını engeller, kelimeyi böler
+  overflow-x: auto; // Yatayda taşarsa kaydırma çubuğu çıkar
+  white-space: nowrap; // Normalde tek satırda kalır
+  box-sizing: border-box; // Padding'in genişliği artırmamasını sağlar
+  font-family: $ana-font; // Ekran için özel font
+  font-weight: 600; // Ekran yazısının kalınlığı
 }
 
-.button-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  width: 100%;
-}
-
-button {
-  background: #fde2f3;
-  border: none;
-  border-radius: 22px;
-  padding: 1rem;
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #8e24aa;
-  cursor: pointer;
-  box-shadow: 4px 4px 8px rgba(220, 170, 230, 0.2);
-  transition: all 0.2s ease-in-out;
-  width: 100%;
-  height: 5rem;
-  user-select: none;
-}
-
-button:hover {
-  box-shadow: 6px 6px 12px rgba(220, 170, 230, 0.3);
-  transform: translateY(-2px);
-  background: #f8bbd0;
-}
-
-button:active {
-  box-shadow: inset 3px 3px 6px rgba(220, 170, 230, 0.2);
-  transform: translateY(0);
-  background: #f48fb1;
-}
-
-.zero-button {
-  grid-column: span 2;
-  border-radius: 25px;
-}
-
-.operator-button {
-  background-color: #e1bee7;
-  color: #6a1b9a;
-  box-shadow: 4px 4px 8px rgba(220, 170, 230, 0.2);
-}
-
-.operator-button:hover {
-  background-color: #d1c4e9;
-  box-shadow: 6px 6px 12px rgba(220, 170, 230, 0.3);
-}
-
-.operator-button:active {
-  background-color: #c5cae9;
-  box-shadow: inset 3px 3px 6px rgba(220, 170, 230, 0.2);
-}
-
-.equals-button {
-  background-color: #c8e6c9;
-  color: #388e3c;
-  box-shadow: 4px 4px 8px rgba(200, 230, 201, 0.2);
-}
-
-.equals-button:hover {
-  background-color: #b2dfdb;
-  box-shadow: 6px 6px 12px rgba(200, 230, 201, 0.3);
-}
-
-.equals-button:active {
-  background-color: #a5d6a7;
-  box-shadow: inset 3px 3px 6px rgba(200, 230, 201, 0.2);
-}
-
-.clear-button {
-  background-color: #bbdefb;
-  color: #1976d2;
-  box-shadow: 4px 4px 8px rgba(179, 222, 251, 0.2);
-}
-
-.clear-button:hover {
-  background-color: #b3e5fc;
-  box-shadow: 6px 6px 12px rgba(179, 222, 251, 0.3);
-}
-
-.clear-button:active {
-  background-color: #81d4fa;
-  box-shadow: inset 3px 3px 6px rgba(179, 222, 251, 0.2);
-}
-
+/* Geçmiş Ekranı */
 .history-display {
-  width: 100%;
-  background-color: #fce4ec;
-  border-radius: 15px;
-  padding: 0.8rem 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  color: #6a1b9a;
-  text-align: right;
-  height: 80px;
-  overflow-y: auto;
-  box-shadow: inset 2px 2px 5px rgba(186, 104, 200, 0.1),
-              inset -2px -2px 5px rgba(255, 255, 255, 0.5);
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-start;
-  gap: 0.2rem;
-  box-sizing: border-box;
+  background-color: lighten($ekran-arka-plan, 5%); // Ekrandan biraz daha açık arka plan
+  color: $gecmis-yazi; // Geçmiş yazısının rengi
+  font-size: 1em; // Geçmiş yazısının boyutu
+  padding: 10px 25px; // İç boşluk
+  text-align: right; // Yazıyı sağa hizala
+  min-height: 30px; // Minimum yükseklik
+  max-height: 70px; // Maksimum yükseklik (taşarsa kaydırma çubuğu)
+  overflow-y: auto; // Dikeyde taşarsa kaydırma çubuğu çıkar
+  border-bottom: 1px solid #e9ecef; // Ekranla butonlar arasına ince çizgi
+  font-family: $ana-font; // Geçmiş ekranı için font
+}
 
-  p {
-    margin: 0;
-    white-space: nowrap;
+/* Buton Izgarası */
+.button-grid {
+  display: grid; // Izgara sistemi kullan
+  grid-template-columns: repeat(4, 1fr); // 4 eşit genişlikte sütun oluştur
+  gap: 12px; // Butonlar arasındaki boşluk (hem yatay hem dikey)
+  padding: 15px; // Izgaranın çevresindeki boşluk
+  background-color: $hesap-makinesi-arka-plan; // Buton ızgarasının arka plan rengi
+}
+
+/* Genel buton stilleri */
+button {
+  border: none; // Kenarlık yok
+  padding: 20px; // İç boşluk
+  font-size: 2.1em; // Butonlardaki yazı boyutu (biraz büyük)
+  cursor: pointer; // Fare imlecini işaretçi yap
+  outline: none; // Tıklandığında çıkan çerçeveyi kaldır
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease; // Yumuşak geçiş efektleri
+  color: $ekran-yazi; // Varsayılan buton yazı rengi
+  background-color: $tus-sayi; // Varsayılan buton arka plan rengi (sayılar gibi)
+  border-radius: 15px; // Yuvarlak köşeler
+  box-shadow: 0 4px 8px $golge-rengi; // Hafif bir buton gölgesi
+  font-family: $ana-font; // Tüm butonlar için font
+  font-weight: 500; // Hafif kalınlık
+
+  &:active {
+    transform: translateY(2px); // Tıklandığında hafifçe aşağı kaydır
+    box-shadow: 0 1px 3px $golge-rengi; // Gölgeyi azalt (basılmış hissi verir)
   }
 }

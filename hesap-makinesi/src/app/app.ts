@@ -1,37 +1,22 @@
-// src/app/app.ts
-
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ngFor, ngIf gibi direktifler için gerekli
-import { RouterOutlet } from '@angular/router'; // Eğer Angular Router kullanılıyorsa eklenmeli
+import { CommonModule } from '@angular/common'; // Genellikle Angular projelerinde temel direktifler için kullanılır
 
-// Calculator bileşenini doğru yoldan import ediyoruz.
-// Senin dosya yapına göre 'src/app/calculator/calculator.ts' olduğu için yolu bu şekilde belirliyoruz.
-import { Calculator } from './calculator/calculator';
+// Calculator bileşenini doğru isimle içeri aktarıyoruz.
+// Senin calculator.ts dosyan 'export class CalculatorComponent' olarak tanımlanmıştır.
+import { CalculatorComponent } from './calculator/calculator'; // <-- Bu satırı düzelt (Calculator yerine CalculatorComponent)
 
 @Component({
-  selector: 'app-root', // Bu, index.html dosyasında kullanılan HTML etiketi olacaktır (<app-root></app-root>)
-  standalone: true,     // Bu bileşenin bağımsız (standalone) olduğunu belirtiriz
+  selector: 'app-root', // Ana bileşeninizin selector'ı bu olmalı
+  standalone: true,     // Eğer projeniz standalone bileşenler kullanıyorsa bu satır olmalı
+  templateUrl: './app.html',
+  styleUrl: './app.scss',
+  // CalculatorComponent'i imports dizisine ekliyoruz.
   imports: [
-    CommonModule,   // Standalone bileşenler modül bağımlılıklarını buraya ekler
-    RouterOutlet,   // Eğer yönlendirme (routing) kullanıyorsanız
-    Calculator      // Hesap makinesi bileşenini buraya ekliyoruz
-  ],
-  template: `
-    <app-calculator></app-calculator>
-  `,
-  styles: [`
-    /* app.ts için temel stiller */
-    :host {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh; /* Tam viewport yüksekliğini kapla */
-      width: 100vw;    /* Tam viewport genişliğini kapla */
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0); /* Hoş bir arka plan */
-      box-sizing: border-box; /* Padding ve border'ın genişliğe dahil olmasını sağlar */
-    }
-  `]
+    CommonModule,
+    CalculatorComponent // <-- Bu satırı düzelt (Calculator yerine CalculatorComponent)
+  ]
 })
-export class App { // <<< Buradaki 'export class App' çok önemli!
-  title = 'Angular Hesap Makinesi';
+export class App {
+  // Uygulamanızın ana bileşenindeki mevcut kodunuz (eğer varsa)
+  name = 'angular-hesap-makinesi'; // Veya başka bir isim
 }
