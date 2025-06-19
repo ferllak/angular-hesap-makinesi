@@ -2,13 +2,13 @@
   <div class="display">{{ currentInput }}</div>
 
   <div class="history-display">
-   <p *ngFor="let entry of history">{{ entry }}</p>
+    <p *ngFor="let entry of history">{{ entry }}</p>
   </div>
 
   <div class="button-grid">
     <app-button value="C" type="action" (buttonClick)="pressClear()"></app-button>
-    <app-button value="←" type="operator" (buttonClick)="pressBackspace()"></app-button>
-    <app-button value="%" type="operator" (buttonClick)="pressPercent()"></app-button>
+    <app-button value="←" type="action" (buttonClick)="pressBackspace()"></app-button> 
+    <app-button value="%" type="action" (buttonClick)="pressPercent()"></app-button> 
     <app-button value="/" type="operator" (buttonClick)="pressOperator('/')"></app-button>
 
     <app-button value="7" type="number" (buttonClick)="pressNumber('7')"></app-button>
@@ -26,8 +26,8 @@
     <app-button value="3" type="number" (buttonClick)="pressNumber('3')"></app-button>
     <app-button value="+" type="operator" (buttonClick)="pressOperator('+')"></app-button>
 
-    <app-button value="0" type="number" (buttonClick)="pressNumber('0')"></app-button>
+    <app-button value="0" type="number" class="span-two" (buttonClick)="pressNumber('0')"></app-button> 
     <app-button value="." type="number" (buttonClick)="pressNumber('.')"></app-button>
-    <app-button value="=" type="action" (buttonClick)="pressEqual()"></app-button>
+    <app-button value="=" type="action" class="equal-button" (buttonClick)="pressEqual()"></app-button>
   </div>
 </div>

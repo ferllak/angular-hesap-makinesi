@@ -1,60 +1,71 @@
-/* Renk Paleti (button.scss içinde de tanımladık ki bu dosya tek başına da çalışabilir olsun) */
-$pembe: #ffe9f9; // Açık Pembe (yeni ton, daha soft)
-$lila: #d6bdf7;   // Açık Lila (yeni ton, daha soft)
-$acik-yesil: #c8f0c8; // Açık Yeşil (yeni ton, daha soft)
-$acik-mavi: #c4e6ff; // Açık Mavi (yeni ton, daha soft)
-$krem: #fffce3;  // Krem rengi (arka plan için, yeni ton, daha soft)
-$gri-yazi: #4a4a4a; // Koyu gri yazı (daha az sert)
-$beyaz-yazi: #ffffff; // Beyaz yazı
+/* Renk Paleti - FOTOĞRAFTA GÖRDÜĞÜM RENKLERE YAKIN */
+$ana-lila: #DCCFF5; // Genel buton arka planı
+$operator-lila: #977BCC; // Operatörler için daha koyu lila
+$action-acik-mavi: #ADD8E6; // C, ←, % için açık mavi (Fotoğraftaki açık maviye yakın)
+$equal-yesil: #8BC34A; // Eşittir için yeşil (Fotoğraftaki yeşile yakın)
+$sayi-yazi: #4A4A4A; // Sayılar için koyu gri yazı
+$operator-yazi: #FFFFFF; // Operatörler için beyaz yazı
+
+// Butonların temel boyutunu ve boşlukları buraya değişken olarak ekliyoruz
+$button-size: 70px; // Buton boyutu
+$grid-gap: 10px; // Izgara boşluğu
 
 button {
-  padding: 20px;
-  font-size: 1.8em;
+  padding: 0; 
+  width: $button-size; // Sabit piksel genişliği
+  height: $button-size; // Sabit piksel yüksekliği (kare olması için)
+  font-size: 1.8em; 
   border: none;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease; /* Gölge için de geçiş */
-  color: $gri-yazi; /* Varsayılan yazı rengi */
-  background-color: $krem; /* Varsayılan buton rengi */
-  border-radius: 12px; /* Köşeler için yumuşak yuvarlaklık */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif, yumuşak gölge */
-  font-family: 'Edu NSW ACT Hand Pre', cursive; /* Tüm butonlara uygulanacak font */
-  font-weight: 500; /* Font kalınlığı */
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+  color: $sayi-yazi; 
+  background-color: $ana-lila; 
+  border-radius: 18px; // Yuvarlak köşeler
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  font-family: 'Quicksand', sans-serif; 
+  font-weight: 600; 
+
+  display: flex; 
+  justify-content: center;
+  align-items: center;
 
   /* Sayı Butonları */
   &.number {
-    background-color: $beyaz-yazi; /* Sayılar için beyaz */
+    background-color: $ana-lila; 
+    color: $sayi-yazi;
   }
 
   /* Operatör Butonları (+, -, *, /) */
   &.operator {
-    background-color: $pembe; /* Operatörler pembe */
-    color: $beyaz-yazi; /* Pembe butonlar üzerinde beyaz yazı */
+    background-color: $operator-lila; 
+    color: $operator-yazi;
   }
 
-  /* İşlem Butonları (C, %, Backspace) */
+  /* İşlem Butonları (C, ←, %) */
   &.action {
-    background-color: $acik-yesil; /* C ve % için açık yeşil */
-    color: $gri-yazi; /* Açık yeşil butonlar üzerinde koyu gri yazı */
+    background-color: $action-acik-mavi; 
+    color: $sayi-yazi;
   }
 
   /* Eşittir (=) Butonu - Özel Stil */
-  &.action[value="="] { /* Sadece değeri "=" olan action butonu */
-    background-color: $acik-mavi; /* Eşittir için açık mavi */
-    color: $beyaz-yazi; /* Açık mavi buton üzerinde beyaz yazı */
-    grid-column: span 2; /* "0" gibi iki sütun kaplaması için */
-    border-radius: 12px; /* Köşeler için yumuşak yuvarlaklık */
+  &.equal-button { 
+    background-color: $equal-yesil; 
+    color: $operator-yazi;
+    font-weight: 700;
   }
 
-  /* "0" Butonu için özel stil (eğer iki sütun kaplamasını istiyorsan) */
-  &.number[value="0"] {
-    grid-column: span 2; /* "0" butonu iki sütun kaplar */
-    border-radius: 12px; /* Köşeler için yumuşak yuvarlaklık */
+  /* "0" Butonu için özel stil */
+  &.span-two { 
+    grid-column: span 2; // İki sütun kaplar
+    border-radius: 32px; // Oval bir görünüm için daha fazla yuvarlaklık
+    // Genişliğini hesaplıyoruz: (2 * buton boyutu) + (1 * boşluk)
+    width: calc( (2 * #{$button-size}) + #{$grid-gap} ); 
   }
 
   /* Tıklama Efekti */
   &:active {
-    transform: scale(0.97); /* Tıklandığında hafifçe küçülür */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Gölge de küçülür, basılmış hissi verir */
+    transform: scale(0.95); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
   }
 }

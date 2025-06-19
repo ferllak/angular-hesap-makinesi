@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../button/button';
-import { HistoryService } from '../history/history.service'; // <-- Burası düzeltildi!
-
+import { HistoryService } from '../history/history.service'; // <-- Bu şekilde olmalı
+import { CalculationService } from '../calculation/calculation.service'; // <-- Fazladan '}' ve '=' silindi
 @Component({
   selector: 'app-calculator',
   templateUrl: './calculator.html',
@@ -17,7 +17,11 @@ export class CalculatorComponent {
   private operator: string | null = null;
   private waitForSecondOperand: boolean = false;
 
-  constructor(private historyService: HistoryService) { } // <-- Constructor güncellendi
+  // Hem HistoryService'i hem de CalculationService'i enjekte ediyoruz
+  constructor(
+    private historyService: HistoryService,
+    private calculationService: CalculationService // CalculationService'i enjekte ettik
+  ) { }
 
   // HistoryService'ten geçmişi almak için getter metot
   get history(): string[] {
@@ -29,7 +33,7 @@ export class CalculatorComponent {
     this.firstOperand = null;
     this.operator = null;
     this.waitForSecondOperand = false;
-    this.historyService.clearHistory(); // <-- Servis metodu çağrıldı
+    this.historyService.clearHistory(); // Servisin metodunu çağırıyoruz
     console.log('Clear butonu tıklandı');
   }
 
@@ -69,7 +73,8 @@ export class CalculatorComponent {
     if (this.firstOperand === null) {
       this.firstOperand = inputValue;
     } else if (this.operator) {
-      const result = this.performCalculation(this.operator, this.firstOperand, inputValue);
+      // Hesaplamayı artık CalculationService'e devrediyoruz
+      const result = this.calculationService.performCalculation(this.operator, this.firstOperand, inputValue);
       this.currentInput = String(result);
       this.firstOperand = result;
     }
@@ -85,33 +90,16 @@ export class CalculatorComponent {
     }
 
     const secondOperand = parseFloat(this.currentInput);
-    const result = this.performCalculation(this.operator, this.firstOperand, secondOperand);
+    // Hesaplamayı artık CalculationService'e devrediyoruz
+    const result = this.calculationService.performCalculation(this.operator, this.firstOperand, secondOperand);
 
-    this.historyService.addEntry(`${this.firstOperand} ${this.operator} ${secondOperand} = ${result}`); // <-- Servis metodu çağrıldı
+    // Geçmişe ekleme: Servisin metodunu çağırıyoruz
+    this.historyService.addEntry(`${this.firstOperand} ${this.operator} ${secondOperand} = ${result}`);
 
     this.currentInput = String(result);
     this.firstOperand = null;
     this.operator = null;
     this.waitForSecondOperand = false;
     console.log('Eşittir butonu tıklandı');
-  }
-
-  private performCalculation(operator: string, firstOperand: number, secondOperand: number): number {
-    switch (operator) {
-      case '+':
-        return firstOperand + secondOperand;
-      case '-':
-        return firstOperand - secondOperand;
-      case '*':
-        return firstOperand * secondOperand;
-      case '/':
-        if (secondOperand === 0) {
-          console.error("Sıfıra bölme hatası!");
-          return NaN;
-        }
-        return firstOperand / secondOperand;
-      default:
-        return secondOperand;
-    }
   }
 }

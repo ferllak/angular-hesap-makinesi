@@ -1,93 +1,87 @@
-/* Genel Renk Paleti - Yumuşak ve Pastel Tonlar */
-$ana-arka-plan: #f8f8f8; // Çok açık gri/krem tonu
-$hesap-makinesi-arka-plan: #ffffff; // Beyaz
-$ekran-arka-plan: #e0f2f7; // Açık, su yeşili mavisi (yeni ton)
-$gecmis-yazi: #8a8a8a; // Orta gri
-$ekran-yazi: #2c3e50; // Koyu gri/mavi
-$tus-sayi: #f0f0f0; // Buton arka planı (sayı)
-$tus-operator: #a2e8c2; // Yeşilimsi buton (operatör)
-$tus-aksiyon: #f7d794; // Sarımsı buton (Clear, %)
-$tus-esittir: #ffb8b8; // Pembe buton (=)
-$golge-rengi: rgba(0, 0, 0, 0.1); // Yumuşak gölge
+@use "sass:color";
 
-/* Google Font: Edu NSW ACT Hand Pre */
-$ana-font: 'Edu NSW ACT Hand Pre', cursive;
+/* FOTOĞRAFTA GÖRDÜĞÜM RENKLERE YAKIN PALET */
+$ana-arka-plan: #fae1fa; // Sayfa arka planı (açık pembe)
+$hesap-makinesi-arka-plan: #FFFFFF; // Hesap makinesi gövdesi (beyaz)
+$ekran-arka-plan: #F0E0F8; // Ekran arka planı (açık lila)
+$gecmis-yazi: #888888; // Geçmiş yazı rengi
+$ekran-yazi: #4A4A4A; // Ana ekran yazı rengi
+
+$golge-rengi-soft: rgba(0, 0, 0, 0.08); // Yumuşak genel gölge
+
+/* Google Font: Quicksand - Fotoğraftaki gibi yumuşak bir font */
+$ana-font: 'Quicksand', sans-serif; 
+
+// Konteyner için genel bir padding değeri belirleyelim
+$container-padding: 20px;
+// Butonların ve ızgara boşluklarının boyutları
+$button-size: 70px;
+$grid-gap: 10px;
 
 /* Genel Hesap Makinesi Konteyneri */
 .calculator-container {
-  display: flex; // İçerikleri esnek kutu olarak sırala
-  flex-direction: column; // İçerikleri dikey sırala (ekran üstte, butonlar altta)
-  width: 320px; // Hesap makinesinin genel genişliği
-  max-width: 90%; // Daha küçük ekranlarda taşmayı önler
-  margin: 50px auto; // Üstten ve alttan 50px boşluk, sağdan ve soldan otomatik boşluk (ortalar)
-  background-color: $hesap-makinesi-arka-plan; // Beyaz arka plan
-  border: 1px solid #e0e0e0; // Çok açık gri kenarlık
-  border-radius: 20px; // Köşeleri yuvarlaklaştırma
-  overflow: hidden; // İçerik taşmasını engeller (örn. yuvarlak köşelerde)
-  box-shadow: 0 10px 30px $golge-rengi; // Yumuşak ve belirgin bir gölge
-  font-family: $ana-font; // Tüm hesap makinesi içindeki varsayılan font
-  padding-bottom: 10px; // Alt kısımdan biraz boşluk (ızgara için)
+  display: flex;
+  flex-direction: column;
+  // Genişliği hassas ayarlıyoruz: (4 * buton boyutu) + (3 * ızgara boşluğu) + (2 * konteyner paddingi)
+  // (4 * 70px) + (3 * 10px) + (2 * 20px) = 280 + 30 + 40 = 350px
+  width: 350px; 
+  max-width: 95%; // Daha küçük ekranlarda esneklik
+  margin: 0 auto; // body'deki merkezlemeyi de hesaba katarak auto marjini sıfırladık
+  background-color: $hesap-makinesi-arka-plan;
+  border-radius: 25px; 
+  overflow: hidden; 
+  box-shadow: 0 12px 40px $golge-rengi-soft; 
+  font-family: $ana-font;
+  padding: $container-padding; // Konteynere içeriden boşluk
+  box-sizing: border-box; // Padding'in genişliğe dahil olmasını sağlar
 }
 
 /* Hesap Makinesi Ekranı */
 .display {
-  background-color: $ekran-arka-plan; // Ekranın arka plan rengi
-  color: $ekran-yazi; // Ekrandaki sayıların yazı rengi
-  font-size: 3.5em; // Ekrandaki sayıların boyutu (biraz daha büyük)
-  padding: 25px; // İç boşluk
-  text-align: right; // Yazıyı sağa hizala
-  min-height: 85px; // Ekranın minimum yüksekliği
-  display: flex; // İçerikleri esnek kutu olarak sırala
-  align-items: flex-end; // İçeriği dikeyde alta hizala
-  justify-content: flex-end; // İçeriği yatayda sağa hizala
-  word-break: break-all; // Uzun sayıların taşmasını engeller, kelimeyi böler
-  overflow-x: auto; // Yatayda taşarsa kaydırma çubuğu çıkar
-  white-space: nowrap; // Normalde tek satırda kalır
-  box-sizing: border-box; // Padding'in genişliği artırmamasını sağlar
-  font-family: $ana-font; // Ekran için özel font
-  font-weight: 600; // Ekran yazısının kalınlığı
+  background-color: $ekran-arka-plan;
+  color: $ekran-yazi;
+  font-size: 3.2em; 
+  padding: 20px 25px; 
+  text-align: right;
+  min-height: 80px; 
+  max-height: 120px; 
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-end;
+  justify-content: flex-end;
+  word-break: break-all;
+  overflow-x: auto;
+  white-space: nowrap; 
+  box-sizing: border-box;
+  font-family: $ana-font;
+  font-weight: 500; 
+  border-radius: 18px; // Ekranın köşelerini yuvarlar
+  margin-bottom: 15px; // Ekran ile butonlar arasına boşluk
 }
 
 /* Geçmiş Ekranı */
 .history-display {
-  background-color: lighten($ekran-arka-plan, 5%); // Ekrandan biraz daha açık arka plan
-  color: $gecmis-yazi; // Geçmiş yazısının rengi
-  font-size: 1em; // Geçmiş yazısının boyutu
-  padding: 10px 25px; // İç boşluk
-  text-align: right; // Yazıyı sağa hizala
-  min-height: 30px; // Minimum yükseklik
-  max-height: 70px; // Maksimum yükseklik (taşarsa kaydırma çubuğu)
-  overflow-y: auto; // Dikeyde taşarsa kaydırma çubuğu çıkar
-  border-bottom: 1px solid #e9ecef; // Ekranla butonlar arasına ince çizgi
-  font-family: $ana-font; // Geçmiş ekranı için font
+  background-color: $ekran-arka-plan; 
+  color: $gecmis-yazi;
+  font-size: 0.9em; 
+  padding: 5px 25px; 
+  text-align: right;
+  min-height: 25px;
+  max-height: 50px; 
+  overflow-y: auto;
+  opacity: 0.7; 
+  font-family: $ana-font;
+  font-weight: 400; 
+  border-radius: 10px; // Geçmiş ekranın köşelerini yuvarlar
+  margin-bottom: 10px; // Geçmiş ekran ile ana ekran arasına boşluk
 }
 
 /* Buton Izgarası */
 .button-grid {
-  display: grid; // Izgara sistemi kullan
-  grid-template-columns: repeat(4, 1fr); // 4 eşit genişlikte sütun oluştur
-  gap: 12px; // Butonlar arasındaki boşluk (hem yatay hem dikey)
-  padding: 15px; // Izgaranın çevresindeki boşluk
-  background-color: $hesap-makinesi-arka-plan; // Buton ızgarasının arka plan rengi
-}
-
-/* Genel buton stilleri */
-button {
-  border: none; // Kenarlık yok
-  padding: 20px; // İç boşluk
-  font-size: 2.1em; // Butonlardaki yazı boyutu (biraz büyük)
-  cursor: pointer; // Fare imlecini işaretçi yap
-  outline: none; // Tıklandığında çıkan çerçeveyi kaldır
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease; // Yumuşak geçiş efektleri
-  color: $ekran-yazi; // Varsayılan buton yazı rengi
-  background-color: $tus-sayi; // Varsayılan buton arka plan rengi (sayılar gibi)
-  border-radius: 15px; // Yuvarlak köşeler
-  box-shadow: 0 4px 8px $golge-rengi; // Hafif bir buton gölgesi
-  font-family: $ana-font; // Tüm butonlar için font
-  font-weight: 500; // Hafif kalınlık
-
-  &:active {
-    transform: translateY(2px); // Tıklandığında hafifçe aşağı kaydır
-    box-shadow: 0 1px 3px $golge-rengi; // Gölgeyi azalt (basılmış hissi verir)
-  }
+  display: grid;
+  // Her sütun için sabit bir genişlik ve aralık belirliyoruz
+  grid-template-columns: repeat(4, #{$button-size}); 
+  gap: $grid-gap; // Butonlar arası boşluk
+  background-color: $hesap-makinesi-arka-plan; 
+  justify-content: center; // Izgarayı ortala
 }
