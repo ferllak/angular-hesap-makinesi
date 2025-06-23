@@ -42,7 +42,7 @@ button.action {
   background-color: #D2F2EF; // Aqua/turkuaz tonu
   color: #388E8E; // Koyu turkuaz yazı
   &:hover {
-    background-color: color.adjust(#D2F2EF, $lightness: -5%);
+    background-color: color.adjust(#D2D2EF, $lightness: -5%);
   }
 }
 
@@ -53,11 +53,4 @@ button.equal { // type="equal" olarak tanımlandığı için class="equal" olur
   &:hover {
     background-color: color.adjust(#A9D9A6, $lightness: -5%);
   }
-}
-
-/* app-button.span-two class'ı, calculator.html'de host elemente uygulanır */
-/* Bu nedenle, o elemanın içindeki butonu hedeflemeliyiz. */
-:host(.span-two) button {
-  // Bu kısım, 0 butonu için özel bir genişlik veya hizalama gerekiyorsa kullanılabilir.
-  // Şu an için calculator.scss'deki grid-column düzenlemesi yeterli olduğu için boş bırakıyorum.
 }
