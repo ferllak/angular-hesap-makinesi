@@ -1,71 +1,63 @@
-/* Renk Paleti - FOTOĞRAFTA GÖRDÜĞÜM RENKLERE YAKIN */
-$ana-lila: #DCCFF5; // Genel buton arka planı
-$operator-lila: #977BCC; // Operatörler için daha koyu lila
-$action-acik-mavi: #ADD8E6; // C, ←, % için açık mavi (Fotoğraftaki açık maviye yakın)
-$equal-yesil: #8BC34A; // Eşittir için yeşil (Fotoğraftaki yeşile yakın)
-$sayi-yazi: #4A4A4A; // Sayılar için koyu gri yazı
-$operator-yazi: #FFFFFF; // Operatörler için beyaz yazı
+@use "sass:color"; // << Düzeltildi: Bu satır dosyanın en başında olmalı
 
-// Butonların temel boyutunu ve boşlukları buraya değişken olarak ekliyoruz
-$button-size: 70px; // Buton boyutu
-$grid-gap: 10px; // Izgara boşluğu
-
+/* ButtonComponent'in içindeki <button> elemanı için genel stiller */
 button {
-  padding: 0; 
-  width: $button-size; // Sabit piksel genişliği
-  height: $button-size; // Sabit piksel yüksekliği (kare olması için)
-  font-size: 1.8em; 
+  width: 100%;
+  height: 65px;
+  border-radius: 18px;
+  font-size: 1.8em;
+  font-weight: 500;
   border: none;
   cursor: pointer;
-  outline: none;
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
-  color: $sayi-yazi; 
-  background-color: $ana-lila; 
-  border-radius: 18px; // Yuvarlak köşeler
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  font-family: 'Quicksand', sans-serif; 
-  font-weight: 600; 
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  
+  // Varsayılan nötr renkler (eğer type sınıfı eşleşmezse)
+  background-color: #ECEFF4; // Açık gri
+  color: #4A4A4A; // Koyu gri yazı
 
-  display: flex; 
-  justify-content: center;
-  align-items: center;
-
-  /* Sayı Butonları */
-  &.number {
-    background-color: $ana-lila; 
-    color: $sayi-yazi;
-  }
-
-  /* Operatör Butonları (+, -, *, /) */
-  &.operator {
-    background-color: $operator-lila; 
-    color: $operator-yazi;
-  }
-
-  /* İşlem Butonları (C, ←, %, √) */
-  &.action {
-    background-color: $action-acik-mavi; 
-    color: $sayi-yazi;
-  }
-
-  /* Eşittir (=) Butonu - Özel Stil */
-  &.equal-button { 
-    background-color: $equal-yesil; 
-    color: $operator-yazi;
-    font-weight: 700;
-  }
-
-  /* "0" Butonu için özel stil */
-  &.span-two { 
-    grid-column: span 2; // İki sütun kaplar
-    border-radius: 32px; // Oval bir görünüm için daha fazla yuvarlaklık
-    // Genişliğini hesaplıyoruz: (2 * buton boyutu) + (1 * boşluk)
-    width: calc( (2 * #{$button-size}) + #{$grid-gap} ); 
-  }
-
-  /* Tıklama Efekti */
   &:active {
-    transform: scale(0.95); 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    transform: translateY(1px); // Tıklanınca hafifçe basılma efekti
   }
+}
+
+/* Tipine göre buton stilleri */
+// Bu stiller Angular'daki [class]="type" bağlaması sayesinde uygulanır.
+// Örneğin: <button [class]="'number'"> -> <button class="number">
+button.number {
+  background-color: #F8F8F8; 
+  &:hover {
+    background-color: #E0E0E0;
+  }
+}
+
+button.operator {
+  background-color: #E2D1F9; // Lila tonu
+  color: #5C4B72; // Koyu mor yazı
+  &:hover {
+    background-color: color.adjust(#E2D1F9, $lightness: -5%);
+  }
+}
+
+button.action {
+  background-color: #D2F2EF; // Aqua/turkuaz tonu
+  color: #388E8E; // Koyu turkuaz yazı
+  &:hover {
+    background-color: color.adjust(#D2F2EF, $lightness: -5%);
+  }
+}
+
+/* Eşittir butonu için özel stil (eğer type="equal" kullanıldıysa) */
+button.equal { // type="equal" olarak tanımlandığı için class="equal" olur
+  background-color: #A9D9A6; // Yeşil tonu
+  color: #3D7D3C; // Koyu yeşil yazı
+  &:hover {
+    background-color: color.adjust(#A9D9A6, $lightness: -5%);
+  }
+}
+
+/* app-button.span-two class'ı, calculator.html'de host elemente uygulanır */
+/* Bu nedenle, o elemanın içindeki butonu hedeflemeliyiz. */
+:host(.span-two) button {
+  // Bu kısım, 0 butonu için özel bir genişlik veya hizalama gerekiyorsa kullanılabilir.
+  // Şu an için calculator.scss'deki grid-column düzenlemesi yeterli olduğu için boş bırakıyorum.
 }
