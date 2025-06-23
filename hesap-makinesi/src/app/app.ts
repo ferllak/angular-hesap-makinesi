@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalculatorComponent } from './calculator/calculator'; // CalculatorComponent'i import ettik
+// import { RouterOutlet } from '@angular/router'; // <-- Bu satırı sil
+
+// Kendi component'lerini import et
+import { CalculatorComponent } from './calculator/calculator'; 
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+  standalone: true, 
   imports: [
     CommonModule,
-    CalculatorComponent // CalculatorComponent'i imports dizisine ekliyoruz
-  ]
+    // RouterOutlet, // <-- Bu satırı sil
+    CalculatorComponent 
+  ],
+  templateUrl: './app.html',
+  styleUrls: ['./app.scss']
 })
-export class App {
-  name = 'angular-hesap-makinesi';
+export class AppComponent {
+  title = 'hesap-makinesi'; 
 }

@@ -15,19 +15,22 @@
     <app-button value="8" type="number" (buttonClick)="pressNumber('8')"></app-button>
     <app-button value="9" type="number" (buttonClick)="pressNumber('9')"></app-button>
     <app-button value="*" type="operator" (buttonClick)="pressOperator('*')"></app-button>
-
+    
     <app-button value="4" type="number" (buttonClick)="pressNumber('4')"></app-button>
     <app-button value="5" type="number" (buttonClick)="pressNumber('5')"></app-button>
     <app-button value="6" type="number" (buttonClick)="pressNumber('6')"></app-button>
     <app-button value="-" type="operator" (buttonClick)="pressOperator('-')"></app-button>
-
+    
     <app-button value="1" type="number" (buttonClick)="pressNumber('1')"></app-button>
     <app-button value="2" type="number" (buttonClick)="pressNumber('2')"></app-button>
     <app-button value="3" type="number" (buttonClick)="pressNumber('3')"></app-button>
     <app-button value="+" type="operator" (buttonClick)="pressOperator('+')"></app-button>
+    
+    <app-button value="√" type="action" (buttonClick)="pressSquareRoot()"></app-button> 
+    <app-button value="xʸ" type="operator" (buttonClick)="pressOperator('^')"></app-button>
+    <app-button value="." type="number" (buttonClick)="pressNumber('.')"></app-button> 
+    <app-button value="=" type="action" class="equal-button" (buttonClick)="pressEqual()"></app-button>
 
     <app-button value="0" type="number" class="span-two" (buttonClick)="pressNumber('0')"></app-button> 
-    <app-button value="." type="number" (buttonClick)="pressNumber('.')"></app-button>
-    <app-button value="=" type="action" class="equal-button" (buttonClick)="pressEqual()"></app-button>
   </div>
 </div>

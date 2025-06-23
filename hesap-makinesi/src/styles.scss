@@ -1,14 +1,11 @@
-/* src/styles.scss */
-
+/* Genel Sıfırlamalar */
 html, body {
-  height: 100%;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color:#ffe6fa;
-  font-family: 'Poppins', sans-serif;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #F8E8F8; /* Genel sayfa arka plan rengi */
+  font-family: 'Quicksand', sans-serif; /* Projenin genel fontu */
 }
+
+/* Diğer global stilleriniz varsa buraya ekleyin */

@@ -1,39 +1,38 @@
 @use "sass:color";
 
-/* FOTOĞRAFTA GÖRDÜĞÜM RENKLERE YAKIN PALET */
-$ana-arka-plan: #fae1fa; // Sayfa arka planı (açık pembe)
-$hesap-makinesi-arka-plan: #FFFFFF; // Hesap makinesi gövdesi (beyaz)
+/* FOTOĞRAFTAKİ İLK GÖRÜNÜME YAKIN RENK PALETİ VE GENEL STİLLER */
+$ana-arka-plan: #F0DAEE; // Genel sayfa arka planı (açık pembe/lavanta)
+$hesap-makinesi-arka-plan: #FBFBFC; // Hesap makinesi gövdesi (çok açık krem/beyaz)
 $ekran-arka-plan: #F0E0F8; // Ekran arka planı (açık lila)
 $gecmis-yazi: #888888; // Geçmiş yazı rengi
 $ekran-yazi: #4A4A4A; // Ana ekran yazı rengi
 
-$golge-rengi-soft: rgba(0, 0, 0, 0.08); // Yumuşak genel gölge
+// Gölgeler için daha belirgin ve derin bir etki
+$golge-rengi-derin: rgba(0, 0, 0, 0.15); // Ana gölge
+$golge-rengi-hafif: rgba(0, 0, 0, 0.05); // Hafif gölge
 
 /* Google Font: Quicksand - Fotoğraftaki gibi yumuşak bir font */
 $ana-font: 'Quicksand', sans-serif; 
-
-// Konteyner için genel bir padding değeri belirleyelim
-$container-padding: 20px;
-// Butonların ve ızgara boşluklarının boyutları
-$button-size: 70px;
-$grid-gap: 10px;
 
 /* Genel Hesap Makinesi Konteyneri */
 .calculator-container {
   display: flex;
   flex-direction: column;
-  // Genişliği hassas ayarlıyoruz: (4 * buton boyutu) + (3 * ızgara boşluğu) + (2 * konteyner paddingi)
-  // (4 * 70px) + (3 * 10px) + (2 * 20px) = 280 + 30 + 40 = 350px
-  width: 350px; 
-  max-width: 95%; // Daha küçük ekranlarda esneklik
-  margin: 0 auto; // body'deki merkezlemeyi de hesaba katarak auto marjini sıfırladık
+  width: 340px; 
+  max-width: 95%; 
+  margin: 40px auto; 
   background-color: $hesap-makinesi-arka-plan;
-  border-radius: 25px; 
+  border-radius: 25px; // Köşe yuvarlatması
   overflow: hidden; 
-  box-shadow: 0 12px 40px $golge-rengi-soft; 
+  // Eski border: 1px solid #ccc; kaldırıldı veya yoruma alındı.
+  
+  // Yeni, daha belirgin ve katmanlı gölge
+  box-shadow: 
+    0 8px 25px $golge-rengi-derin, // Daha koyu ve yaygın gölge
+    0 2px 8px $golge-rengi-hafif; // Daha hafif ve yakın gölge
+
   font-family: $ana-font;
-  padding: $container-padding; // Konteynere içeriden boşluk
-  box-sizing: border-box; // Padding'in genişliğe dahil olmasını sağlar
+  box-sizing: border-box; 
 }
 
 /* Hesap Makinesi Ekranı */
@@ -55,8 +54,8 @@ $grid-gap: 10px;
   box-sizing: border-box;
   font-family: $ana-font;
   font-weight: 500; 
-  border-radius: 18px; // Ekranın köşelerini yuvarlar
-  margin-bottom: 15px; // Ekran ile butonlar arasına boşluk
+  border-top-left-radius: 25px; // Konteynerin köşelerine uyum
+  border-top-right-radius: 25px; // Konteynerin köşelerine uyum
 }
 
 /* Geçmiş Ekranı */
@@ -72,16 +71,89 @@ $grid-gap: 10px;
   opacity: 0.7; 
   font-family: $ana-font;
   font-weight: 400; 
-  border-radius: 10px; // Geçmiş ekranın köşelerini yuvarlar
-  margin-bottom: 10px; // Geçmiş ekran ile ana ekran arasına boşluk
+  // Ekranın alt kenarı ile butonlar arasına bir çizgi hissi vermek için
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); // Çok ince ve açık bir çizgi
 }
 
 /* Buton Izgarası */
 .button-grid {
   display: grid;
-  // Her sütun için sabit bir genişlik ve aralık belirliyoruz
-  grid-template-columns: repeat(4, #{$button-size}); 
-  gap: $grid-gap; // Butonlar arası boşluk
-  background-color: $hesap-makinesi-arka-plan; 
-  justify-content: center; // Izgarayı ortala
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 10px; 
+  padding: 15px 20px 20px 20px; 
+  background-color: $hesap-makinesi-arka-plan;
+  box-sizing: border-box; 
+
+  app-button:last-child {
+    grid-column: 2 / span 2; 
+    justify-self: center;   
+    align-self: center;     
+  }
+}
+
+/* BUTONLAR İÇİN EK STİLLER (Eğer button.scss'te yeterli değilse) */
+/* Burası, button.ts'teki @Input()'lar ile gelen type'lara göre stil uygulayacak */
+/* Eğer button.scss dosyanız varsa, bu kısım orada olmalı. */
+/* Eğer yoksa ve ButtonComponent'inize dahilse, buraya ekleyebilirsiniz. */
+
+app-button {
+    // app-button elemanının kendisi display: block veya inline-block olmalı
+    // Genellikle Angular component selector'ları varsayılan olarak inline'dır.
+    // CSS'ini button/button.scss'e eklemek daha doğru olacaktır.
+}
+
+// ButtonComponent'in içindeki butonu hedeflemek için (eğer button.scss'te değilse)
+app-button button {
+  width: 100%;
+  height: 65px; // Butonların yüksekliği
+  border-radius: 18px; // Yuvarlak köşeler
+  font-size: 1.8em; // Font büyüklüğü
+  font-weight: 500;
+  border: none; // Çerçevesiz butonlar
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  
+  // Nötr renkler
+  background-color: #ECEFF4; // Açık gri
+  color: #4A4A4A; // Koyu gri yazı
+
+  &:active {
+    transform: translateY(1px); // Tıklanınca hafifçe basılma efekti
+  }
+}
+
+app-button.number button {
+  background-color: #F8F8F8; 
+  &:hover {
+    background-color: #E0E0E0;
+  }
+}
+
+app-button.operator button {
+  background-color: #E2D1F9; // Lila tonu
+  color: #5C4B72; // Koyu mor yazı
+  &:hover {
+    background-color: color.adjust(#E2D1F9, $lightness: -5%);
+  }
+}
+
+app-button.action button {
+  background-color: #D2F2EF; // Aqua/turkuaz tonu
+  color: #388E8E; // Koyu turkuaz yazı
+  &:hover {
+    background-color: color.adjust(#D2F2EF, $lightness: -5%);
+  }
+}
+
+app-button .equal-button {
+  background-color: #A9D9A6; // Yeşil tonu
+  color: #3D7D3C; // Koyu yeşil yazı
+  &:hover {
+    background-color: color.adjust(#A9D9A6, $lightness: -5%);
+  }
+}
+
+// Geniş buton (0 butonu için)
+app-button.span-two button {
+  // width: 100%; // Zaten %100 genişliğinde olacak
 }
