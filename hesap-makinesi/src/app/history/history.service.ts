@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HistoryEntity } from '../models/api-dtos'; 
+import { environment } from '../../environments/environment'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class HistoryService {
-  private historyEntries: string[] = [];
+  // API URL'ini environment dosyasından alıyoruz
+  private apiUrl = environment.apiUrl + '/api/history'; // Path'in geri kalanını ekleyebilirsiniz
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  addEntry(entry: string) {
-    this.historyEntries.push(entry);
+  // Aşağıdaki metotlar eski kodunuzdan geldi, muhtemelen kullanıyorsunuz.
+  // Eğer models/api-dtos.ts dosyanızda HistoryEntity yoksa hata alırsınız.
+  getHistory(): Observable<HistoryEntity[]> {
+    return this.http.get<HistoryEntity[]>(`${this.apiUrl}/getHistory`);
   }
 
-  getHistory(): string[] {
-    return [...this.historyEntries];
-  }
-
-  clearHistory() {
-    this.historyEntries = [];
+  clearHistory(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/clearHistory`, {});
   }
 }

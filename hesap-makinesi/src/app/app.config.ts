@@ -1,8 +1,15 @@
-// src/app/app.config.ts (Eğer routing kullanmıyorsanız)
-import { ApplicationConfig } from '@angular/platform-browser';
-// import { provideRouter } from '@angular/router'; // Bunu kaldırdık
-// import { routes } from './app.routes'; // Bunu kaldırdık
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'; 
+import { authInterceptorProvider } from './interceptors/auth'; 
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [] // Sağlayıcılar dizisi boş olabilir
+  providers: [
+    provideRouter(routes),
+    // provideHttpClient fonksiyonunu bu şekilde kullanmalısınız!
+    // Asla HttpClientModule'ü imports dizisine eklemeyin.
+    provideHttpClient(withInterceptorsFromDi()), 
+    authInterceptorProvider, 
+  ]
 };

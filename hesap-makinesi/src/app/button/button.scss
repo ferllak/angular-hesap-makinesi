@@ -1,4 +1,4 @@
-@use "sass:color"; // << Bu satır dosyanın en başında olmalı
+@use "sass:color"; // Sass modülü kullanımı
 
 /* ButtonComponent'in içindeki <button> elemanı için genel stiller */
 button {
@@ -10,7 +10,7 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  
+
   // Varsayılan nötr renkler (eğer type sınıfı eşleşmezse)
   background-color: #ECEFF4; // Açık gri
   color: #4A4A4A; // Koyu gri yazı
@@ -24,7 +24,7 @@ button {
 // Bu stiller Angular'daki [class]="type" bağlaması sayesinde uygulanır.
 // Örneğin: <button [class]="'number'"> -> <button class="number">
 button.number {
-  background-color: #F8F8F8; 
+  background-color: #F8F8F8;
   &:hover {
     background-color: #E0E0E0;
   }
@@ -38,15 +38,15 @@ button.operator {
   }
 }
 
-button.action {
+button.action { // Bu sınıf şu an HTML'de kullanılmıyor olabilir, ama CSS'te durabilir
   background-color: #D2F2EF; // Aqua/turkuaz tonu
   color: #388E8E; // Koyu turkuaz yazı
   &:hover {
-    background-color: color.adjust(#D2D2EF, $lightness: -5%);
+    background-color: color.adjust(#D2F2EF, $lightness: -5%);
   }
 }
 
-/* Eşittir butonu için özel stil (eğer type="equal" kullanıldıysa) */
+/* Eşittir butonu için özel stil */
 button.equal { // type="equal" olarak tanımlandığı için class="equal" olur
   background-color: #A9D9A6; // Yeşil tonu
   color: #3D7D3C; // Koyu yeşil yazı

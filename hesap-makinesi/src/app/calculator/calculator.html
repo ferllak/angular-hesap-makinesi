@@ -1,36 +1,40 @@
 <div class="calculator-container">
-  <div class="display">{{ currentInput }}</div>
-
-  <div class="history-display">
-    <p *ngFor="let entry of history">{{ entry }}</p>
+  <div class="display">
+    <div class="output">{{ currentInput }}</div>
+    <div class="history-display">
+      <ul *ngIf="history.length > 0">
+        <li *ngFor="let item of history">{{ item }}</li>
+      </ul>
+      <div *ngIf="history.length === 0" class="no-history">Geçmiş yok.</div>
+    </div>
   </div>
 
   <div class="button-grid">
-    <app-button value="C" type="action" (btnClick)="pressClear()"></app-button>
-    <app-button value="←" type="action" (btnClick)="pressBackspace()"></app-button>
-    <app-button value="%" type="action" (btnClick)="pressPercent()"></app-button>
-    <app-button value="/" type="operator" (btnClick)="pressOperator('/')"></app-button>
+    <app-button text="C" type="clear" (buttonClick)="pressClear()"></app-button>
+    <app-button text="←" type="backspace" (buttonClick)="pressBackspace()"></app-button>
+    <app-button text="%" type="operator" (buttonClick)="pressPercent()"></app-button>
+    <app-button text="/" type="operator" (buttonClick)="pressOperator('/')"></app-button>
 
-    <app-button value="7" type="number" (btnClick)="pressNumber('7')"></app-button>
-    <app-button value="8" type="number" (btnClick)="pressNumber('8')"></app-button>
-    <app-button value="9" type="number" (btnClick)="pressNumber('9')"></app-button>
-    <app-button value="*" type="operator" (btnClick)="pressOperator('*')"></app-button>
-    
-    <app-button value="4" type="number" (btnClick)="pressNumber('4')"></app-button>
-    <app-button value="5" type="number" (btnClick)="pressNumber('5')"></app-button>
-    <app-button value="6" type="number" (btnClick)="pressNumber('6')"></app-button>
-    <app-button value="-" type="operator" (btnClick)="pressOperator('-')"></app-button>
-    
-    <app-button value="1" type="number" (btnClick)="pressNumber('1')"></app-button>
-    <app-button value="2" type="number" (btnClick)="pressNumber('2')"></app-button>
-    <app-button value="3" type="number" (btnClick)="pressNumber('3')"></app-button>
-    <app-button value="+" type="operator" (btnClick)="pressOperator('+')"></app-button>
+    <app-button text="7" type="number" (buttonClick)="pressNumber('7')"></app-button>
+    <app-button text="8" type="number" (buttonClick)="pressNumber('8')"></app-button>
+    <app-button text="9" type="number" (buttonClick)="pressNumber('9')"></app-button>
+    <app-button text="*" type="operator" (buttonClick)="pressOperator('*')"></app-button>
 
-    <app-button value="sqrt" type="action" text="√" (btnClick)="pressSquareRoot()"></app-button>
-    <app-button value="0" type="number" (btnClick)="pressNumber('0')"></app-button>
-    <app-button value="." type="number" (btnClick)="pressNumber('.')"></app-button>
-    <app-button value="power" type="operator" text="xʸ" (btnClick)="pressOperator('^')"></app-button> 
-    
-    <app-button value="equal" type="equal" class="equal-button" text="=" (btnClick)="pressEqual()"></app-button>
+    <app-button text="4" type="number" (buttonClick)="pressNumber('4')"></app-button>
+    <app-button text="5" type="number" (buttonClick)="pressNumber('5')"></app-button>
+    <app-button text="6" type="number" (buttonClick)="pressNumber('6')"></app-button>
+    <app-button text="-" type="operator" (buttonClick)="pressOperator('-')"></app-button>
+
+    <app-button text="1" type="number" (buttonClick)="pressNumber('1')"></app-button>
+    <app-button text="2" type="number" (buttonClick)="pressNumber('2')"></app-button>
+    <app-button text="3" type="number" (buttonClick)="pressNumber('3')"></app-button>
+    <app-button text="+" type="operator" (buttonClick)="pressOperator('+')"></app-button>
+
+    <app-button text="√" type="operator" (buttonClick)="pressSquareRoot()"></app-button>
+    <app-button text="0" type="number" (buttonClick)="pressNumber('0')"></app-button>
+    <app-button text="." type="number" (buttonClick)="pressNumber('.')"></app-button>
+    <app-button text="xʸ" type="operator" (buttonClick)="pressOperator('^')"></app-button>
+
+    <app-button text="=" type="equal" class="equal-button" (buttonClick)="pressEqual()"></app-button>
   </div>
 </div>

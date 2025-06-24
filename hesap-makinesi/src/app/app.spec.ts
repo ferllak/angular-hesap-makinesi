@@ -1,33 +1,34 @@
 // src/app/app.spec.ts
-import { TestBed, ComponentFixture } from '@angular/core/testing'; // ComponentFixture'ı import et
-import { App } from './app'; // app.ts dosyasındaki App bileşenini import ediyoruz
-import { Calculator } from './calculator/calculator'; // Calculator bileşenini test için import et
+import { TestBed } from '@angular/core/testing';
+import { AppComponent } from './app';
+import { CalculatorComponent } from './calculator/calculator'; // CalculatorComponent'i doğru şekilde import edin
 
-describe('App', () => {
-  let fixture: ComponentFixture<App>; // fixture tipini belirt
-  let app: App;
-
+describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App, Calculator], // App ve Calculator (standalone olduğu için) ikisini de imports'a ekle
+      imports: [
+        AppComponent,
+        CalculatorComponent // CalculatorComponent'i de imports'a ekliyoruz
+      ],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(App);
-    app = fixture.componentInstance;
-    fixture.detectChanges(); // Initial change detection
   });
 
   it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'Angular Hesap Makinesi' title`, () => {
-    expect(app.title).toEqual('Angular Hesap Makinesi');
+  it(`should have the 'hesap-makinesi' title`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('hesap-makinesi');
   });
 
-  it('should render calculator component', () => { // Async/await ve RouterTestingHarness olmadan
+  it('should render calculator component', () => { // Başlığı render etmek yerine calculator component'ini kontrol edelim
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    // Hesap makinesi bileşeninin selector'ü olan 'app-calculator'ın sayfada olup olmadığını kontrol eder
-    expect(compiled.querySelector('app-calculator')).toBeTruthy();
+    expect(compiled.querySelector('app-calculator')).toBeTruthy(); // app-calculator etiketinin varlığını kontrol et
   });
 });

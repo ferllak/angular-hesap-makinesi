@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+# Environment files (sensitive information)
+/src/environments/environment.ts
+/src/environments/environment.prod.ts
+# Eğer başka özel environment dosyalarınız varsa, onları da ekleyin

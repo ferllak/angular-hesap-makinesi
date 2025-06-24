@@ -1,7 +1,7 @@
+// src/app/calculator/calculator.scss
 @use "sass:color"; // Sass modülü kullanımı
 
-/* RENK PALETİ VE GENEL STİLLER */
-$ana-arka-plan: #F0DAEE; // Genel sayfa arka planı (açık pembe/lavanta)
+/* RENK PALETİ - SADECE GEREKLİ OLANLAR BURADA KALSIN */
 $hesap-makinesi-arka-plan: #FBFBFC; // Hesap makinesi gövdesi (çok açık krem/beyaz)
 $ekran-arka-plan: #F0E0F8; // Ekran arka planı (açık lila)
 $gecmis-yazi: #888888; // Geçmiş yazı rengi
@@ -11,93 +11,113 @@ $ekran-yazi: #4A4A4A; // Ana ekran yazı rengi
 $golge-rengi-derin: rgba(0, 0, 0, 0.15); // Ana gölge
 $golge-rengi-hafif: rgba(0, 0, 0, 0.05); // Hafif gölge
 
-/* Google Font: Quicksand - Fotoğraftaki gibi yumuşak bir font */
-$ana-font: 'Quicksand', sans-serif; 
-
-/* Genel Hesap Makinesi Konteyneri */
+/* Hesap Makinesi Konteyneri */
 .calculator-container {
   display: flex;
   flex-direction: column;
-  width: 340px; 
-  max-width: 95%; 
-  margin: 40px auto; 
-  background-color: $hesap-makinesi-arka-plan; 
+  width: 340px;
+  max-width: 95%;
+  margin: 0 auto;
+  background-color: $hesap-makinesi-arka-plan;
   border-radius: 25px; // Köşe yuvarlatması
-  overflow: hidden; 
-  
-  // Yeni, daha belirgin ve katmanlı gölge
-  box-shadow: 
-    0 8px 25px $golge-rengi-derin, 
-    0 2px 8px $golge-rengi-hafif; 
+  overflow: hidden;
 
-  font-family: $ana-font;
-  box-sizing: border-box; 
+  box-shadow:
+    0 8px 25px $golge-rengi-derin,
+    0 2px 8px $golge-rengi-hafif;
+
+  font-family: 'Quicksand', sans-serif; /* Fontu burada tekrar tanımlayın, çünkü bu bileşenin kapsadığı alan için geçerli olacak */
+  box-sizing: border-box;
 }
 
-/* Hesap Makinesi Ekranı */
+/* Hesap Makinesi Ekranı - Ana girişin gösterildiği alan */
 .display {
   background-color: $ekran-arka-plan;
   color: $ekran-yazi;
-  font-size: 3.2em; 
-  padding: 20px 25px; 
+  padding: 20px 25px;
   text-align: right;
-  min-height: 80px; 
-  max-height: 120px; 
+  min-height: 100px; /* Ekranın minimum yüksekliği */
   display: flex;
-  flex-direction: column; 
-  align-items: flex-end;
-  justify-content: flex-end;
+  flex-direction: column; /* İçeriği dikey sırala: geçmiş üstte, çıktı altta */
+  align-items: flex-end; /* İçeriği sağa hizala */
+  justify-content: space-between; /* Geçmiş ve çıktı arasında boşluk bırak */
   word-break: break-all;
-  overflow-x: auto;
-  white-space: nowrap; 
+  overflow: hidden; /* Taşmaları engelle */
   box-sizing: border-box;
-  font-family: $ana-font;
-  font-weight: 500; 
-  border-top-left-radius: 25px; 
-  border-top-right-radius: 25px; 
+  font-family: 'Quicksand', sans-serif;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
 }
 
-/* Geçmiş Ekranı */
+/* Geçmiş Ekranı - Daha küçük yazı, ana ekranın üstünde */
 .history-display {
-  background-color: $ekran-arka-plan; 
+  width: 100%; /* Tam genişliği kapla */
   color: $gecmis-yazi;
-  font-size: 0.9em; 
-  padding: 5px 25px; 
+  font-size: 0.8em; /* Yazı boyutunu küçült */
   text-align: right;
-  min-height: 25px;
-  max-height: 50px; 
-  overflow-y: auto;
-  opacity: 0.7; 
-  font-family: $ana-font;
-  font-weight: 400; 
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05); 
+  height: 40px; /* Geçmiş ekranı için sabit bir yükseklik */
+  overflow-y: auto; /* Dikey kaydırma çubuğu */
+  opacity: 0.7; /* Daha silik görünüm */
+  font-weight: 400;
+  white-space: nowrap; /* Satır sonu yapma */
+  margin-bottom: 5px; /* Ana çıktı ile arasında boşluk */
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    margin-bottom: 2px;
+    /* history listesi içindeki her bir öğenin font boyutu */
+    font-size: 0.9em; /* Ekranın genel geçmiş yazı boyutuna göre ayarlandı */
+  }
+}
+.no-history {
+  font-style: italic;
+  color: #aaa;
+  font-size: 0.9em; /* Eğer geçmiş yoksa yazı boyutu */
+}
+
+/* Ana Çıktı Ekranı */
+.output {
+  width: 100%; /* Tam genişliği kapla */
+  font-size: 3.2em; /* Ana çıktı font boyutu */
+  font-weight: 500;
+  overflow-x: auto; /* Yatay kaydırma çubuğu */
+  white-space: nowrap; /* Satır sonu yapma */
+  min-height: 40px; /* İçerik için minimum yükseklik */
+  display: flex;
+  align-items: flex-end; /* Sayıyı ekranın altına hizala */
+  justify-content: flex-end; /* Sayıyı sağa hizala */
 }
 
 /* Buton Izgarası */
 .button-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 sütunlu bir grid */
-  gap: 10px; 
-  padding: 15px 20px 20px 20px; 
-  background-color: $hesap-makinesi-arka-plan; // HATA BURADAYDI, DÜZELTİLDİ!
-  box-sizing: border-box; 
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 15px 20px 20px 20px;
+  background-color: $hesap-makinesi-arka-plan;
+  box-sizing: border-box;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
 
-/* app-button elementine eklenen sınıflara göre stil atama (örn: .equal-button) */
+/* app-button elementine eklenen sınıflara göre stil atama */
 app-button.equal-button {
   grid-column: 1 / -1; /* Eşittir butonunu ilk sütundan son sütuna kadar yay */
-  margin-top: 10px; /* Üstteki satırla arasına biraz boşluk bırak */
+  margin-top: 5px; /* Üstteki satırla arasına biraz boşluk bırak */
 }
 
-app-button.equal-button button { 
-  background-color: #A9D9A6; // Butonun kendi rengi
-  color: #3D7D3C; // Butonun yazı rengi
+app-button.equal-button button {
+  background-color: #A9D9A6;
+  color: #3D7D3C;
   &:hover {
     background-color: color.adjust(#A9D9A6, $lightness: -5%);
   }
 }
 
-// Geniş buton (0 butonu için) - eğer 'span-two' sınıfı hala kullanılıyorsa
 app-button.span-two {
-  grid-column: 1 / span 2; // İlk sütundan başlayıp 2 sütun kapla
+  grid-column: 1 / span 2;
 }

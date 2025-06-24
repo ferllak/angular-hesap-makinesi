@@ -1,11 +1,17 @@
-/* Genel Sıfırlamalar */
+// src/styles.scss
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap'); /* Google Font'u buraya taşıdık */
+
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: 100%; /* Sayfanın tam yüksekliğini almasını sağlar */
   width: 100%;
-  background-color: #F8E8F8; /* Genel sayfa arka plan rengi */
-  font-family: 'Quicksand', sans-serif; /* Projenin genel fontu */
+  background-color: #F0DAEE; /* Ana arka plan rengini buraya tanımladık */
+  font-family: 'Quicksand', sans-serif; /* Fontu buraya tanımladık */
+  display: flex; /* İçeriği merkezlemek için */
+  justify-content: center; /* Yatay merkezleme */
+  align-items: center; /* Dikey merkezleme */
+  box-sizing: border-box;
 }
 
-/* Diğer global stilleriniz varsa buraya ekleyin */
+/* Buraya diğer global stilleriniz eklenebilir */
