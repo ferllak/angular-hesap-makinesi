@@ -1,11 +1,12 @@
 // src/app/calculator/calculator.scss
 @use "sass:color"; // Sass modülü kullanımı
 
-/* RENK PALETİ - SADECE GEREKLİ OLANLAR BURADA KALSIN */
+/* RENK PALETİ */
 $hesap-makinesi-arka-plan: #FBFBFC; // Hesap makinesi gövdesi (çok açık krem/beyaz)
 $ekran-arka-plan: #F0E0F8; // Ekran arka planı (açık lila)
 $gecmis-yazi: #888888; // Geçmiş yazı rengi
 $ekran-yazi: #4A4A4A; // Ana ekran yazı rengi
+$gecmis-arka-plan: #E5D5F5; // Geçmiş ekranı için hafif daha koyu lila rengi
 
 // Gölgeler için daha belirgin ve derin bir etki
 $golge-rengi-derin: rgba(0, 0, 0, 0.15); // Ana gölge
@@ -32,7 +33,7 @@ $golge-rengi-hafif: rgba(0, 0, 0, 0.05); // Hafif gölge
 
 /* Hesap Makinesi Ekranı - Ana girişin gösterildiği alan */
 .display {
-  background-color: $ekran-arka-plan;
+  background-color: $ekran-arka-plan; // Ekranın ana arka planı
   color: $ekran-yazi;
   padding: 20px 25px;
   text-align: right;
@@ -51,16 +52,21 @@ $golge-rengi-hafif: rgba(0, 0, 0, 0.05); // Hafif gölge
 
 /* Geçmiş Ekranı - Daha küçük yazı, ana ekranın üstünde */
 .history-display {
-  width: 100%; /* Tam genişliği kapla */
+  width: 90%; /* BURASI DEĞİŞTİ: Genişliği %90'a düşürdük */
+  margin-left: auto; /* BURASI EKLENDİ: Otomatik sol marjin ile sağa hizala */
+  background-color: $gecmis-arka-plan;
   color: $gecmis-yazi;
-  font-size: 0.8em; /* Yazı boyutunu küçült */
+  font-size: 0.8em;
   text-align: right;
-  height: 40px; /* Geçmiş ekranı için sabit bir yükseklik */
-  overflow-y: auto; /* Dikey kaydırma çubuğu */
-  opacity: 0.7; /* Daha silik görünüm */
+  height: 40px;
+  overflow-y: auto;
+  opacity: 0.7;
   font-weight: 400;
-  white-space: nowrap; /* Satır sonu yapma */
-  margin-bottom: 5px; /* Ana çıktı ile arasında boşluk */
+  white-space: nowrap;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+
 
   ul {
     list-style: none;
@@ -69,27 +75,26 @@ $golge-rengi-hafif: rgba(0, 0, 0, 0.05); // Hafif gölge
   }
   li {
     margin-bottom: 2px;
-    /* history listesi içindeki her bir öğenin font boyutu */
-    font-size: 0.9em; /* Ekranın genel geçmiş yazı boyutuna göre ayarlandı */
+    font-size: 0.9em;
   }
 }
 .no-history {
   font-style: italic;
   color: #aaa;
-  font-size: 0.9em; /* Eğer geçmiş yoksa yazı boyutu */
+  font-size: 0.9em;
 }
 
 /* Ana Çıktı Ekranı */
 .output {
-  width: 100%; /* Tam genişliği kapla */
-  font-size: 3.2em; /* Ana çıktı font boyutu */
+  width: 100%;
+  font-size: 3.2em;
   font-weight: 500;
-  overflow-x: auto; /* Yatay kaydırma çubuğu */
-  white-space: nowrap; /* Satır sonu yapma */
-  min-height: 40px; /* İçerik için minimum yükseklik */
+  overflow-x: auto;
+  white-space: nowrap;
+  min-height: 40px;
   display: flex;
-  align-items: flex-end; /* Sayıyı ekranın altına hizala */
-  justify-content: flex-end; /* Sayıyı sağa hizala */
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 /* Buton Izgarası */
@@ -106,8 +111,8 @@ $golge-rengi-hafif: rgba(0, 0, 0, 0.05); // Hafif gölge
 
 /* app-button elementine eklenen sınıflara göre stil atama */
 app-button.equal-button {
-  grid-column: 1 / -1; /* Eşittir butonunu ilk sütundan son sütuna kadar yay */
-  margin-top: 5px; /* Üstteki satırla arasına biraz boşluk bırak */
+  grid-column: 1 / -1;
+  margin-top: 5px;
 }
 
 app-button.equal-button button {
